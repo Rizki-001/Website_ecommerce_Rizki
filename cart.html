@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang Belanja - RizkiStore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- NAVBAR -->
+    <nav class="bg-indigo-600 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="text-2xl font-bold tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping"></i> RizkiStore
+                </a>
+                <div class="hidden md:flex space-x-6 font-medium">
+                    <a href="index.html" class="hover:text-indigo-200 transition">Beranda</a>
+                    <a href="products.html" class="hover:text-indigo-200 transition">Produk</a>
+                    <a href="contact.html" class="hover:text-indigo-200 transition">Kontak</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="cart.html" class="relative p-2 text-indigo-200">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 py-8 w-full flex-grow">
+        <h1 class="text-3xl font-bold mb-6">Keranjang Belanja</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- List Items -->
+            <div class="lg:col-span-2 space-y-4" id="cart-items-container">
+                <!-- Diisi secara dinamis via JS -->
+            </div>
+
+            <!-- Ringkasan Pesanan -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-fit">
+                <h2 class="text-xl font-bold mb-4 border-b pb-2">Ringkasan Belanja</h2>
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600">Total Harga</span>
+                    <span class="font-semibold" id="cart-total">Rp 0</span>
+                </div>
+                <div class="flex justify-between mb-4">
+                    <span class="text-gray-600">Pengiriman</span>
+                    <span class="text-green-600 font-semibold">Gratis</span>
+                </div>
+                <hr class="mb-4">
+                <div class="flex justify-between text-lg font-bold mb-6">
+                    <span>Total Pembayaran</span>
+                    <span class="text-indigo-600" id="cart-grand-total">Rp 0</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                    Proses Checkout
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-gray-300 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs">
+            &copy; 2026 Website_ecommerce_Rizki. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
