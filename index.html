@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RizkiStore - E-Commerce Terpercaya</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- NAVBAR -->
+    <nav class="bg-indigo-600 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="text-2xl font-bold tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping"></i> RizkiStore
+                </a>
+                <div class="hidden md:flex space-x-6 font-medium">
+                    <a href="index.html" class="hover:text-indigo-200 transition">Beranda</a>
+                    <a href="products.html" class="hover:text-indigo-200 transition">Produk</a>
+                    <a href="contact.html" class="hover:text-indigo-200 transition">Kontak</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="cart.html" class="relative p-2 hover:text-indigo-200 transition">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Temukan Produk Impianmu di RizkiStore</h1>
+            <p class="text-lg md:text-xl text-indigo-100 mb-8">Koleksi elektronik, fashion, dan aksesoris terlengkap dengan harga terbaik dan garansi resmi.</p>
+            <a href="products.html" class="bg-white text-indigo-600 font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">Belanja Sekarang</a>
+        </div>
+    </header>
+
+    <!-- KATEGORI -->
+    <section class="max-w-7xl mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 border-l-4 border-indigo-600 pl-3">Kategori Pilihan</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
+                <i class="fa-solid fa-laptop text-4xl text-indigo-600 mb-3"></i>
+                <h3 class="font-semibold">Elektronik</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
+                <i class="fa-solid fa-shirt text-4xl text-indigo-600 mb-3"></i>
+                <h3 class="font-semibold">Fashion</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
+                <i class="fa-solid fa-clock text-4xl text-indigo-600 mb-3"></i>
+                <h3 class="font-semibold">Aksesoris</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
+                <i class="fa-solid fa-mobile-screen text-4xl text-indigo-600 mb-3"></i>
+                <h3 class="font-semibold">Gadget</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUK UNGGULAN -->
+    <section class="max-w-7xl mx-auto px-4 py-12">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">Produk Unggulan</h2>
+            <a href="products.html" class="text-indigo-600 font-semibold hover:underline">Lihat Semua &rarr;</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="featured-products">
+            <!-- Produk diisi via JavaScript -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-gray-300 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center md:text-left grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-xl font-bold text-white mb-2">RizkiStore</h3>
+                <p class="text-sm">Pusat belanja online terpercaya untuk segala kebutuhan Anda.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold text-white mb-2">Navigasi Cepat</h4>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="index.html" class="hover:text-white">Beranda</a></li>
+                    <li><a href="products.html" class="hover:text-white">Produk</a></li>
+                    <li><a href="contact.html" class="hover:text-white">Kontak</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-white mb-2">Ikuti Kami</h4>
+                <div class="flex justify-center md:justify-start space-x-4">
+                    <a href="#" class="hover:text-white text-lg"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-white text-lg"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white text-lg"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-4 text-center text-xs">
+            &copy; 2026 Website_ecommerce_Rizki. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
