@@ -17,7 +17,7 @@
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans flex flex-col min-h-screen transition-colors duration-300">
 
     <!-- NAVBAR -->
-    <nav class="bg-indigo-600 dark:bg-indigo-900 text-white sticky top-0 z-40 shadow-md transition-colors duration-300">
+    <nav class="bg-orange-600 dark:bg-orange-900 text-white sticky top-0 z-40 shadow-md transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Brand Logo -->
@@ -27,11 +27,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex space-x-6 font-medium">
-                    <a href="./index.html" class="hover:text-indigo-200 transition">Beranda</a>
-                    <a href="./products.html" class="hover:text-indigo-200 transition">Produk</a>
-                    <a href="./contact.html" class="hover:text-indigo-200 transition">Kontak</a>
+                    <a href="./index.html" class="hover:text-orange-200 transition">Beranda</a>
+                    <a href="./products.html" class="hover:text-orange-200 transition">Produk</a>
+                    <a href="./contact.html" class="hover:text-orange-200 transition">Kontak</a>
                     <!-- Link Khusus Admin (Dinamis / Disembunyikan secara default jika bukan admin) -->
-                    <a href="./admin-dashboard.html" id="admin-nav-link" class="hidden hover:text-indigo-200 text-yellow-300 font-bold transition flex items-center gap-1">
+                    <a href="./admin-dashboard.html" id="admin-nav-link" class="hidden hover:text-orange-200 text-yellow-300 font-bold transition flex items-center gap-1">
                         <i class="fa-solid fa-user-shield"></i> Kelola Toko
                     </a>
                 </div>
@@ -39,19 +39,19 @@
                 <!-- Right Actions (Theme Toggle, Cart, Auth) -->
                 <div class="flex items-center gap-3">
                     <!-- Dark/Light Mode Toggle Button -->
-                    <button id="theme-toggle" type="button" class="p-2 rounded-lg text-indigo-100 hover:text-white hover:bg-indigo-700 dark:hover:bg-indigo-800 focus:outline-none transition">
+                    <button id="theme-toggle" type="button" class="p-2 rounded-lg text-orange-100 hover:text-white hover:bg-orange-700 dark:hover:bg-orange-800 focus:outline-none transition">
                         <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg"></i>
                         <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-lg hidden"></i>
                     </button>
 
                     <!-- Cart Icon -->
-                    <a href="./cart.html" id="cart-nav-link" class="relative p-2 hover:text-indigo-200 transition">
+                    <a href="./cart.html" id="cart-nav-link" class="relative p-2 hover:text-orange-200 transition">
                         <i class="fa-solid fa-cart-shopping text-xl"></i>
                         <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
                     </a>
 
                     <!-- Login / Auth Button -->
-                    <button onclick="toggleAuthModal()" id="auth-btn" class="bg-indigo-700 dark:bg-indigo-800 hover:bg-indigo-800 dark:hover:bg-indigo-700 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow">
+                    <button onclick="toggleAuthModal()" id="auth-btn" class="bg-orange-700 dark:bg-orange-800 hover:bg-orange-800 dark:hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow">
                         <i class="fa-solid fa-right-to-bracket"></i>
                         <span id="auth-btn-text">Masuk / Daftar</span>
                     </button>
@@ -61,32 +61,32 @@
     </nav>
 
     <!-- HERO SECTION -->
-    <header class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 dark:from-indigo-950 dark:via-purple-950 dark:to-gray-900 text-white py-20 px-4 text-center transition-colors duration-300">
+    <header class="bg-gradient-to-r from-orange-500 via-orange-600 to-amber-600 dark:from-orange-950 dark:via-amber-950 dark:to-gray-900 text-white py-20 px-4 text-center transition-colors duration-300">
         <div class="max-w-4xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Temukan Produk Impianmu di RizkiStore</h1>
-            <p class="text-lg md:text-xl text-indigo-100 dark:text-gray-300 mb-8">Koleksi elektronik, fashion, dan aksesoris terlengkap dengan harga terbaik dan garansi resmi.</p>
-            <a href="./products.html" class="bg-white dark:bg-indigo-600 text-indigo-600 dark:text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-indigo-500 transition duration-300 inline-block">Belanja Sekarang</a>
+            <p class="text-lg md:text-xl text-orange-100 dark:text-gray-300 mb-8">Koleksi elektronik, fashion, dan aksesoris terlengkap dengan harga terbaik dan garansi resmi.</p>
+            <a href="./products.html" class="bg-white dark:bg-orange-600 text-orange-600 dark:text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-orange-50 dark:hover:bg-orange-500 transition duration-300 inline-block">Belanja Sekarang</a>
         </div>
     </header>
 
     <!-- KATEGORI -->
     <section class="max-w-7xl mx-auto px-4 py-12">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 border-l-4 border-indigo-600 pl-3">Kategori Pilihan</h2>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 border-l-4 border-orange-500 pl-3">Kategori Pilihan</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
-                <i class="fa-solid fa-laptop text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <i class="fa-solid fa-laptop text-4xl text-orange-500 dark:text-orange-400 mb-3"></i>
                 <h3 class="font-semibold text-gray-800 dark:text-gray-200">Elektronik</h3>
             </div>
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
-                <i class="fa-solid fa-shirt text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <i class="fa-solid fa-shirt text-4xl text-orange-500 dark:text-orange-400 mb-3"></i>
                 <h3 class="font-semibold text-gray-800 dark:text-gray-200">Fashion</h3>
             </div>
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
-                <i class="fa-solid fa-clock text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <i class="fa-solid fa-clock text-4xl text-orange-500 dark:text-orange-400 mb-3"></i>
                 <h3 class="font-semibold text-gray-800 dark:text-gray-200">Aksesoris</h3>
             </div>
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
-                <i class="fa-solid fa-mobile-screen text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <i class="fa-solid fa-mobile-screen text-4xl text-orange-500 dark:text-orange-400 mb-3"></i>
                 <h3 class="font-semibold text-gray-800 dark:text-gray-200">Gadget</h3>
             </div>
         </div>
@@ -95,8 +95,8 @@
     <!-- PRODUK UNGGULAN -->
     <section class="max-w-7xl mx-auto px-4 py-12">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 border-l-4 border-indigo-600 pl-3">Produk Unggulan</h2>
-            <a href="./products.html" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Lihat Semua &rarr;</a>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 border-l-4 border-orange-500 pl-3">Produk Unggulan</h2>
+            <a href="./products.html" class="text-orange-600 dark:text-orange-400 font-semibold hover:underline">Lihat Semua &rarr;</a>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="featured-products">
             <!-- Produk diisi via JavaScript -->
@@ -113,10 +113,10 @@
 
             <!-- Modal Header / Tabs -->
             <div class="flex border-b border-gray-200 dark:border-gray-700 mb-6">
-                <button id="tab-login-btn" onclick="switchTab('login')" class="w-1/2 py-2 font-semibold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400">
+                <button id="tab-login-btn" onclick="switchTab('login')" class="w-1/2 py-2 font-semibold text-orange-600 dark:text-orange-400 border-b-2 border-orange-500 dark:border-orange-400">
                     Masuk
                 </button>
-                <button id="tab-register-btn" onclick="switchTab('register')" class="w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                <button id="tab-register-btn" onclick="switchTab('register')" class="w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400">
                     Daftar
                 </button>
             </div>
@@ -128,7 +128,7 @@
                 <!-- Role Selection -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Masuk Sebagai:</label>
-                    <select id="login-role" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <select id="login-role" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                         <option value="pembeli">Pembeli (Customer)</option>
                         <option value="admin">Admin Toko</option>
                     </select>
@@ -136,15 +136,15 @@
 
                 <div>
                     <label class="block text-sm font-medium mb-1">Email / Username</label>
-                    <input type="text" id="login-email" required placeholder="Masukkan email/username" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="login-email" required placeholder="Masukkan email/username" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium mb-1">Kata Sandi</label>
-                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
 
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+                <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded-lg transition duration-200">
                     Masuk
                 </button>
             </form>
@@ -156,7 +156,7 @@
                 <!-- Role Selection -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Daftar Sebagai:</label>
-                    <select id="register-role" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <select id="register-role" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                         <option value="pembeli">Pembeli (Customer)</option>
                         <option value="admin">Admin Toko</option>
                     </select>
@@ -164,20 +164,20 @@
 
                 <div>
                     <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
-                    <input type="text" id="register-name" required placeholder="Nama Anda" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="register-name" required placeholder="Nama Anda" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium mb-1">Email</label>
-                    <input type="email" id="register-email" required placeholder="email@contoh.com" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="email" id="register-email" required placeholder="email@contoh.com" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium mb-1">Kata Sandi</label>
-                    <input type="password" id="register-password" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="password" id="register-password" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
 
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+                <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded-lg transition duration-200">
                     Daftar Sekarang
                 </button>
             </form>
@@ -259,13 +259,13 @@
             if (tab === 'login') {
                 loginForm.classList.remove('hidden');
                 registerForm.classList.add('hidden');
-                loginBtn.className = "w-1/2 py-2 font-semibold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400";
-                registerBtn.className = "w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400";
+                loginBtn.className = "w-1/2 py-2 font-semibold text-orange-600 dark:text-orange-400 border-b-2 border-orange-500 dark:border-orange-400";
+                registerBtn.className = "w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400";
             } else {
                 loginForm.classList.add('hidden');
                 registerForm.classList.remove('hidden');
-                registerBtn.className = "w-1/2 py-2 font-semibold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400";
-                loginBtn.className = "w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400";
+                registerBtn.className = "w-1/2 py-2 font-semibold text-orange-600 dark:text-orange-400 border-b-2 border-orange-500 dark:border-orange-400";
+                loginBtn.className = "w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400";
             }
         }
 
