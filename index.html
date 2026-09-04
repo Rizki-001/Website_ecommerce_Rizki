@@ -1,66 +1,93 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RizkiStore - E-Commerce Terpercaya</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans flex flex-col min-h-screen transition-colors duration-300">
 
     <!-- NAVBAR -->
-    <nav class="bg-indigo-600 text-white sticky top-0 z-50 shadow-md">
+    <nav class="bg-indigo-600 dark:bg-indigo-900 text-white sticky top-0 z-40 shadow-md transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo -->
                 <a href="index.html" class="text-2xl font-bold tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-bag-shopping"></i> RizkiStore
                 </a>
+
+                <!-- Navigation Links -->
                 <div class="hidden md:flex space-x-6 font-medium">
                     <a href="index.html" class="hover:text-indigo-200 transition">Beranda</a>
                     <a href="products.html" class="hover:text-indigo-200 transition">Produk</a>
                     <a href="contact.html" class="hover:text-indigo-200 transition">Kontak</a>
+                    <!-- Link Khusus Admin (Dinamis / Disembunyikan secara default jika bukan admin) -->
+                    <a href="admin-dashboard.html" id="admin-nav-link" class="hidden hover:text-indigo-200 text-yellow-300 font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-user-shield"></i> Kelola Toko
+                    </a>
                 </div>
-                <div class="flex items-center gap-4">
-                    <a href="cart.html" class="relative p-2 hover:text-indigo-200 transition">
+
+                <!-- Right Actions (Theme Toggle, Cart, Auth) -->
+                <div class="flex items-center gap-3">
+                    <!-- Dark/Light Mode Toggle Button -->
+                    <button id="theme-toggle" type="button" class="p-2 rounded-lg text-indigo-100 hover:text-white hover:bg-indigo-700 dark:hover:bg-indigo-800 focus:outline-none transition">
+                        <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg"></i>
+                        <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-lg hidden"></i>
+                    </button>
+
+                    <!-- Cart Icon -->
+                    <a href="cart.html" id="cart-nav-link" class="relative p-2 hover:text-indigo-200 transition">
                         <i class="fa-solid fa-cart-shopping text-xl"></i>
                         <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
                     </a>
+
+                    <!-- Login / Auth Button -->
+                    <button onclick="toggleAuthModal()" id="auth-btn" class="bg-indigo-700 dark:bg-indigo-800 hover:bg-indigo-800 dark:hover:bg-indigo-700 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span id="auth-btn-text">Masuk / Daftar</span>
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20 px-4 text-center">
+    <header class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 dark:from-indigo-950 dark:via-purple-950 dark:to-gray-900 text-white py-20 px-4 text-center transition-colors duration-300">
         <div class="max-w-4xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Temukan Produk Impianmu di RizkiStore</h1>
-            <p class="text-lg md:text-xl text-indigo-100 mb-8">Koleksi elektronik, fashion, dan aksesoris terlengkap dengan harga terbaik dan garansi resmi.</p>
-            <a href="products.html" class="bg-white text-indigo-600 font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">Belanja Sekarang</a>
+            <p class="text-lg md:text-xl text-indigo-100 dark:text-gray-300 mb-8">Koleksi elektronik, fashion, dan aksesoris terlengkap dengan harga terbaik dan garansi resmi.</p>
+            <a href="products.html" class="bg-white dark:bg-indigo-600 text-indigo-600 dark:text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-indigo-500 transition duration-300 inline-block">Belanja Sekarang</a>
         </div>
     </header>
 
     <!-- KATEGORI -->
     <section class="max-w-7xl mx-auto px-4 py-12">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800 border-l-4 border-indigo-600 pl-3">Kategori Pilihan</h2>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 border-l-4 border-indigo-600 pl-3">Kategori Pilihan</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
-                <i class="fa-solid fa-laptop text-4xl text-indigo-600 mb-3"></i>
-                <h3 class="font-semibold">Elektronik</h3>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
+                <i class="fa-solid fa-laptop text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <h3 class="font-semibold text-gray-800 dark:text-gray-200">Elektronik</h3>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
-                <i class="fa-solid fa-shirt text-4xl text-indigo-600 mb-3"></i>
-                <h3 class="font-semibold">Fashion</h3>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
+                <i class="fa-solid fa-shirt text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <h3 class="font-semibold text-gray-800 dark:text-gray-200">Fashion</h3>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
-                <i class="fa-solid fa-clock text-4xl text-indigo-600 mb-3"></i>
-                <h3 class="font-semibold">Aksesoris</h3>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
+                <i class="fa-solid fa-clock text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <h3 class="font-semibold text-gray-800 dark:text-gray-200">Aksesoris</h3>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100">
-                <i class="fa-solid fa-mobile-screen text-4xl text-indigo-600 mb-3"></i>
-                <h3 class="font-semibold">Gadget</h3>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition text-center cursor-pointer border border-gray-100 dark:border-gray-700">
+                <i class="fa-solid fa-mobile-screen text-4xl text-indigo-600 dark:text-indigo-400 mb-3"></i>
+                <h3 class="font-semibold text-gray-800 dark:text-gray-200">Gadget</h3>
             </div>
         </div>
     </section>
@@ -68,16 +95,97 @@
     <!-- PRODUK UNGGULAN -->
     <section class="max-w-7xl mx-auto px-4 py-12">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">Produk Unggulan</h2>
-            <a href="products.html" class="text-indigo-600 font-semibold hover:underline">Lihat Semua &rarr;</a>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 border-l-4 border-indigo-600 pl-3">Produk Unggulan</h2>
+            <a href="products.html" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Lihat Semua &rarr;</a>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="featured-products">
             <!-- Produk diisi via JavaScript -->
         </div>
     </section>
 
+    <!-- MODAL AUTHENTICATION (LOGIN & REGISTRASI) -->
+    <div id="auth-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-2xl shadow-2xl max-w-md w-full p-6 relative transition-all border border-gray-200 dark:border-gray-700">
+            <!-- Close Button -->
+            <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Header / Tabs -->
+            <div class="flex border-b border-gray-200 dark:border-gray-700 mb-6">
+                <button id="tab-login-btn" onclick="switchTab('login')" class="w-1/2 py-2 font-semibold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400">
+                    Masuk
+                </button>
+                <button id="tab-register-btn" onclick="switchTab('register')" class="w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                    Daftar
+                </button>
+            </div>
+
+            <!-- FORM LOGIN -->
+            <form id="login-form" class="space-y-4" onsubmit="handleAuth(event, 'login')">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Masuk ke Akun Anda</h3>
+                
+                <!-- Role Selection -->
+                <div>
+                    <label class="block text-sm font-medium mb-1">Masuk Sebagai:</label>
+                    <select id="login-role" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="pembeli">Pembeli (Customer)</option>
+                        <option value="admin">Admin Toko</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Email / Username</label>
+                    <input type="text" id="login-email" required placeholder="Masukkan email/username" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Kata Sandi</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+                    Masuk
+                </button>
+            </form>
+
+            <!-- FORM REGISTRASI -->
+            <form id="register-form" class="space-y-4 hidden" onsubmit="handleAuth(event, 'register')">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Buat Akun Baru</h3>
+
+                <!-- Role Selection -->
+                <div>
+                    <label class="block text-sm font-medium mb-1">Daftar Sebagai:</label>
+                    <select id="register-role" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="pembeli">Pembeli (Customer)</option>
+                        <option value="admin">Admin Toko</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
+                    <input type="text" id="register-name" required placeholder="Nama Anda" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Email</label>
+                    <input type="email" id="register-email" required placeholder="email@contoh.com" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Kata Sandi</label>
+                    <input type="password" id="register-password" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+                    Daftar Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- FOOTER -->
-    <footer class="bg-gray-800 text-gray-300 mt-auto py-8">
+    <footer class="bg-gray-800 dark:bg-gray-950 text-gray-300 mt-auto py-8 transition-colors duration-300 border-t dark:border-gray-800">
         <div class="max-w-7xl mx-auto px-4 text-center md:text-left grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
                 <h3 class="text-xl font-bold text-white mb-2">RizkiStore</h3>
@@ -100,11 +208,115 @@
                 </div>
             </div>
         </div>
-        <div class="border-t border-gray-700 mt-8 pt-4 text-center text-xs">
+        <div class="border-t border-gray-700 dark:border-gray-800 mt-8 pt-4 text-center text-xs">
             &copy; 2026 Website_ecommerce_Rizki. All rights reserved.
         </div>
     </footer>
 
+    <!-- INLINE SCRIPT UNTUK TEMA & DUKUNGAN AUTHENTICATION -->
+    <script>
+        // --- KONTROL TEMA (DARK / LIGHT MODE) ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Cek preferensi awal di LocalStorage atau Sistem
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            lightIcon.classList.remove('hidden');
+            darkIcon.classList.add('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            lightIcon.classList.toggle('hidden');
+            darkIcon.classList.toggle('hidden');
+
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        });
+
+        // --- KONTROL MODAL LOGIN & REGISTRASI ---
+        function toggleAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function switchTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginBtn = document.getElementById('tab-login-btn');
+            const registerBtn = document.getElementById('tab-register-btn');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                loginBtn.className = "w-1/2 py-2 font-semibold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400";
+                registerBtn.className = "w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400";
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                registerBtn.className = "w-1/2 py-2 font-semibold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400";
+                loginBtn.className = "w-1/2 py-2 font-semibold text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400";
+            }
+        }
+
+        // Simulasi Penanganan Auth sederhahana (Role: Admin vs Pembeli)
+        function handleAuth(event, type) {
+            event.preventDefault();
+            const role = type === 'login' 
+                ? document.getElementById('login-role').value 
+                : document.getElementById('register-role').value;
+            
+            // Simpan status pengguna di LocalStorage
+            localStorage.setItem('user_role', role);
+            localStorage.setItem('is_logged_in', 'true');
+
+            alert(`Berhasil ${type === 'login' ? 'masuk' : 'mendaftar'} sebagai ${role.toUpperCase()}!`);
+            toggleAuthModal();
+            checkUserRole();
+        }
+
+        function checkUserRole() {
+            const role = localStorage.getItem('user_role');
+            const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
+            const adminNavLink = document.getElementById('admin-nav-link');
+            const authBtnText = document.getElementById('auth-btn-text');
+
+            if (isLoggedIn) {
+                authBtnText.innerText = `Keluar (${role.toUpperCase()})`;
+                document.getElementById('auth-btn').onclick = handleLogout;
+
+                if (role === 'admin') {
+                    adminNavLink.classList.remove('hidden');
+                } else {
+                    adminNavLink.classList.add('hidden');
+                }
+            } else {
+                authBtnText.innerText = 'Masuk / Daftar';
+                document.getElementById('auth-btn').onclick = toggleAuthModal;
+                adminNavLink.classList.add('hidden');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('is_logged_in');
+            alert('Anda telah keluar.');
+            checkUserRole();
+        }
+
+        // Cek status role saat halaman di-load
+        document.addEventListener('DOMContentLoaded', checkUserRole);
+    </script>
     <script src="js/app.js"></script>
 </body>
 </html>
