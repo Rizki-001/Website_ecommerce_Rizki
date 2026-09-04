@@ -41,7 +41,6 @@ function addToCart(productId) {
     }
 
     saveCart();
-    alert(`${product.name} berhasil ditambahkan ke keranjang!`);
 }
 
 // Render Produk di Index/Products Page
