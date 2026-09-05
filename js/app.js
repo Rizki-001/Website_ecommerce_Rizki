@@ -28,7 +28,7 @@ function formatRupiah(number) {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
 }
 
-// Modern Custom Toast Notification
+// Modern Custom Toast Notification (Orange Theme)
 function showToast(message, type = 'success') {
     let container = document.getElementById('toast-container');
     if (!container) {
@@ -39,10 +39,10 @@ function showToast(message, type = 'success') {
     }
 
     const toast = document.createElement('div');
-    const bgColor = type === 'success' ? 'bg-emerald-500' : type === 'warning' ? 'bg-amber-500' : 'bg-rose-500';
+    const bgColor = type === 'success' ? 'bg-orange-500' : type === 'warning' ? 'bg-amber-500' : 'bg-rose-500';
     const icon = type === 'success' ? 'fa-circle-check' : type === 'warning' ? 'fa-triangle-exclamation' : 'fa-circle-xmark';
 
-    toast.className = `${bgColor} text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-5 opacity-0 pointer-events-auto text-sm font-medium z-50`;
+    toast.className = `${bgColor} text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-orange-500/10 flex items-center gap-3 transition-all duration-300 transform translate-y-5 opacity-0 pointer-events-auto text-sm font-medium z-50 border border-white/20`;
     toast.innerHTML = `<i class="fa-solid ${icon} text-lg"></i> <span>${message}</span>`;
 
     container.appendChild(toast);
@@ -79,11 +79,21 @@ function saveOrders() {
 // Badge Counter Updater
 function updateCartCount() {
     const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    document.querySelectorAll("#cart-count").forEach(el => el.textContent = totalCount);
+    document.querySelectorAll("#cart-count").forEach(el => {
+        el.textContent = totalCount;
+        el.className = totalCount > 0 
+            ? "absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm" 
+            : "hidden";
+    });
 }
 
 function updateWishlistCount() {
-    document.querySelectorAll("#wishlist-count").forEach(el => el.textContent = wishlist.length);
+    document.querySelectorAll("#wishlist-count").forEach(el => {
+        el.textContent = wishlist.length;
+        el.className = wishlist.length > 0 
+            ? "absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-sm" 
+            : "hidden";
+    });
 }
 
 function closeModal(modalId) {
@@ -98,6 +108,23 @@ document.addEventListener('keydown', (e) => {
         modals.forEach(id => closeModal(id));
     }
 });
+
+// Setup Minimalist Dynamic Navbar Behavior
+function setupMinimalistNavbar() {
+    const nav = document.querySelector('nav');
+    if (!nav) return;
+
+    // Tambahkan class dasar untuk gaya minimalis oranye-putih
+    nav.classList.add('sticky', 'top-0', 'z-40', 'bg-white/90', 'backdrop-blur-md', 'border-b', 'border-slate-100', 'transition-all', 'duration-200');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+            nav.classList.add('shadow-sm');
+        } else {
+            nav.classList.remove('shadow-sm');
+        }
+    });
+}
 
 // ==========================================
 // FITUR PEMBELI (BUYER FUNCTIONS)
@@ -184,12 +211,12 @@ function openProductDetail(productId) {
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
                 <div class="overflow-hidden rounded-2xl bg-slate-50 relative">
                     <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover">
-                    <button onclick="toggleWishlist(${product.id}); openProductDetail(${product.id});" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-rose-500 shadow-sm transition">
-                        <i class="${isWishlisted ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart"></i>
+                    <button onclick="toggleWishlist(${product.id}); openProductDetail(${product.id});" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-orange-500 shadow-sm transition">
+                        <i class="${isWishlisted ? 'fa-solid text-orange-500' : 'fa-regular'} fa-heart"></i>
                     </button>
                 </div>
                 <div>
-                    <span class="text-xs font-semibold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-100">${product.category}</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-100">${product.category}</span>
                     <h2 class="text-2xl font-bold text-slate-800 mt-3">${product.name}</h2>
                     <div class="flex items-center gap-2 mt-2">
                         <div class="text-amber-400 text-sm"><i class="fa-solid fa-star"></i> <span class="text-slate-700 font-semibold">${product.rating || '4.8'}</span></div>
@@ -197,9 +224,9 @@ function openProductDetail(productId) {
                         <span class="text-sm text-slate-500">Stok: ${product.stock} pcs</span>
                     </div>
                     <p class="text-slate-600 text-sm mt-3 leading-relaxed">${product.description || 'Produk berkualitas tinggi yang siap menemani aktivitas harian Anda dengan kenyamanan maksimal.'}</p>
-                    <p class="text-2xl font-extrabold text-teal-600 mt-4">${formatRupiah(product.price)}</p>
+                    <p class="text-2xl font-extrabold text-orange-600 mt-4">${formatRupiah(product.price)}</p>
                     <div class="flex gap-3 mt-6">
-                        <button onclick="addToCart(${product.id}); closeModal('product-detail-modal');" class="flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg hover:opacity-95 transition flex items-center justify-center gap-2">
+                        <button onclick="addToCart(${product.id}); closeModal('product-detail-modal');" class="flex-1 bg-orange-500 text-white font-semibold py-3 px-4 rounded-xl shadow-md shadow-orange-500/20 hover:bg-orange-600 transition flex items-center justify-center gap-2">
                             <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                         </button>
                     </div>
@@ -217,7 +244,7 @@ function renderProducts(items, containerId) {
     if (!items || items.length === 0) {
         container.innerHTML = `
             <div class="col-span-full py-16 text-center">
-                <div class="w-20 h-20 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <div class="w-20 h-20 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
                     <i class="fa-solid fa-box-open"></i>
                 </div>
                 <h3 class="text-lg font-semibold text-slate-700">Produk Tidak Ditemukan</h3>
@@ -230,16 +257,16 @@ function renderProducts(items, containerId) {
     container.innerHTML = items.map(product => {
         const isWishlisted = wishlist.includes(product.id);
         return `
-            <div class="group bg-white rounded-3xl border border-slate-100/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden relative">
+            <div class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden relative">
                 <!-- Wishlist Button -->
-                <button onclick="toggleWishlist(${product.id})" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-rose-500 shadow-sm transition">
-                    <i class="${isWishlisted ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart"></i>
+                <button onclick="toggleWishlist(${product.id})" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-orange-500 shadow-sm transition">
+                    <i class="${isWishlisted ? 'fa-solid text-orange-500' : 'fa-regular'} fa-heart"></i>
                 </button>
 
                 <!-- Image & Tag -->
                 <div class="relative overflow-hidden bg-slate-50 h-52 cursor-pointer" onclick="openProductDetail(${product.id})">
                     <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <span class="absolute bottom-3 left-3 text-[11px] font-bold tracking-wide uppercase text-teal-700 bg-teal-50/90 backdrop-blur-md px-3 py-1 rounded-full border border-teal-100">
+                    <span class="absolute bottom-3 left-3 text-[11px] font-bold tracking-wide uppercase text-orange-600 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-orange-100">
                         ${product.category}
                     </span>
                 </div>
@@ -250,7 +277,7 @@ function renderProducts(items, containerId) {
                         <span><i class="fa-solid fa-star text-amber-400"></i> ${product.rating || '4.8'}</span>
                         <span>Stok: ${product.stock}</span>
                     </div>
-                    <h3 onclick="openProductDetail(${product.id})" class="font-semibold text-slate-800 text-base mb-2 group-hover:text-teal-600 transition cursor-pointer line-clamp-1">
+                    <h3 onclick="openProductDetail(${product.id})" class="font-semibold text-slate-800 text-base mb-2 group-hover:text-orange-600 transition cursor-pointer line-clamp-1">
                         ${product.name}
                     </h3>
                     <div class="mt-auto pt-3 flex items-center justify-between border-t border-slate-50">
@@ -258,7 +285,7 @@ function renderProducts(items, containerId) {
                             <span class="text-xs text-slate-400 block">Harga</span>
                             <span class="text-lg font-bold text-slate-900">${formatRupiah(product.price)}</span>
                         </div>
-                        <button onclick="addToCart(${product.id})" class="w-10 h-10 rounded-2xl bg-teal-50 text-teal-600 hover:bg-teal-600 hover:text-white transition flex items-center justify-center shadow-sm">
+                        <button onclick="addToCart(${product.id})" class="w-10 h-10 rounded-2xl bg-orange-50 text-orange-600 hover:bg-orange-500 hover:text-white transition flex items-center justify-center shadow-sm">
                             <i class="fa-solid fa-cart-plus"></i>
                         </button>
                     </div>
@@ -278,12 +305,12 @@ function renderWishlistPage() {
     if (wishlistItems.length === 0) {
         container.innerHTML = `
             <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-100">
-                <div class="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                <div class="w-20 h-20 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
                     <i class="fa-solid fa-heart-crack"></i>
                 </div>
                 <h3 class="text-xl font-bold text-slate-800">Favorit Anda Masih Kosong</h3>
                 <p class="text-slate-500 text-sm mt-2 mb-6">Tandai barang impian Anda dengan menekan ikon hati.</p>
-                <a href="products.html" class="inline-flex items-center gap-2 bg-teal-600 text-white font-semibold px-6 py-3 rounded-2xl hover:bg-teal-700 transition shadow-md">
+                <a href="products.html" class="inline-flex items-center gap-2 bg-orange-500 text-white font-semibold px-6 py-3 rounded-2xl hover:bg-orange-600 transition shadow-md shadow-orange-500/20">
                     <i class="fa-solid fa-bag-shopping"></i> Eksplor Produk
                 </a>
             </div>
@@ -302,12 +329,12 @@ function renderCartPage() {
     if (cart.length === 0) {
         container.innerHTML = `
             <div class="bg-white/80 backdrop-blur-md p-10 rounded-3xl text-center border border-slate-100 shadow-sm">
-                <div class="w-20 h-20 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                <div class="w-20 h-20 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
                     <i class="fa-solid fa-basket-shopping"></i>
                 </div>
                 <h3 class="text-xl font-bold text-slate-800">Keranjang Anda Masih Kosong</h3>
                 <p class="text-slate-500 text-sm mt-2 mb-6">Jelajahi produk impian Anda dan tambahkan ke sini!</p>
-                <a href="products.html" class="inline-flex items-center gap-2 bg-teal-600 text-white font-semibold px-6 py-3 rounded-2xl hover:bg-teal-700 transition shadow-md">
+                <a href="products.html" class="inline-flex items-center gap-2 bg-orange-500 text-white font-semibold px-6 py-3 rounded-2xl hover:bg-orange-600 transition shadow-md shadow-orange-500/20">
                     <i class="fa-solid fa-bag-shopping"></i> Mulai Belanja
                 </a>
             </div>
@@ -330,7 +357,7 @@ function renderCartPage() {
                     <div>
                         <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">${item.category}</span>
                         <h3 class="font-bold text-slate-800 text-base line-clamp-1">${item.name}</h3>
-                        <p class="text-teal-600 font-bold text-sm mt-1">${formatRupiah(item.price)}</p>
+                        <p class="text-orange-600 font-bold text-sm mt-1">${formatRupiah(item.price)}</p>
                     </div>
                 </div>
 
@@ -409,7 +436,7 @@ function openCheckoutModal() {
     modal.onclick = (e) => { if (e.target === modal) closeModal('checkout-modal'); };
 
     modal.innerHTML = `
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in border border-slate-100">
             <button onclick="closeModal('checkout-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 bg-slate-100 rounded-full w-9 h-9 flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -420,26 +447,26 @@ function openCheckoutModal() {
             <form onsubmit="processCheckout(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Nama Lengkap</label>
-                    <input type="text" id="buyer-name" required placeholder="Contoh: Rizki Ramadhan" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 text-sm">
+                    <input type="text" id="buyer-name" required placeholder="Contoh: Rizki Ramadhan" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Alamat Lengkap</label>
-                    <textarea id="buyer-address" required rows="2" placeholder="Jl. Merdeka No. 123, Jakarta Selatan" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 text-sm"></textarea>
+                    <textarea id="buyer-address" required rows="2" placeholder="Jl. Merdeka No. 123, Jakarta Selatan" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm"></textarea>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Metode Pembayaran</label>
-                    <select id="payment-method" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 text-sm bg-white">
+                    <select id="payment-method" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm bg-white">
                         <option value="QRIS / Transfer Bank">QRIS / Transfer Bank (Otomatis)</option>
                         <option value="COD (Bayar di Tempat)">COD (Bayar di Tempat)</option>
                         <option value="E-Wallet (Gopay/OVO/Dana)">E-Wallet (Gopay/OVO/Dana)</option>
                     </select>
                 </div>
 
-                <div class="bg-slate-50 p-4 rounded-2xl space-y-2 text-sm mt-4">
-                    <div class="flex justify-between text-slate-600"><span>Total Tagihan:</span> <span class="font-bold text-slate-900">${formatRupiah(grandTotal)}</span></div>
+                <div class="bg-orange-50/60 p-4 rounded-2xl border border-orange-100 space-y-2 text-sm mt-4">
+                    <div class="flex justify-between text-slate-600"><span>Total Tagihan:</span> <span class="font-bold text-orange-600 text-base">${formatRupiah(grandTotal)}</span></div>
                 </div>
 
-                <button type="submit" class="w-full mt-4 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold py-3.5 rounded-xl shadow-lg hover:opacity-95 transition">
+                <button type="submit" class="w-full mt-4 bg-orange-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-orange-500/20 hover:bg-orange-600 transition">
                     Konfirmasi & Bayar Pesanan
                 </button>
             </form>
@@ -519,7 +546,7 @@ function renderAdminProducts() {
     }
 
     tableBody.innerHTML = products.map(p => `
-        <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
+        <tr class="border-b border-slate-100 hover:bg-orange-50/30 transition">
             <td class="py-3 px-4 font-medium text-slate-800">#${p.id}</td>
             <td class="py-3 px-4">
                 <div class="flex items-center gap-3">
@@ -527,12 +554,12 @@ function renderAdminProducts() {
                     <span class="font-semibold text-slate-800 text-sm">${p.name}</span>
                 </div>
             </td>
-            <td class="py-3 px-4 text-xs"><span class="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium">${p.category}</span></td>
+            <td class="py-3 px-4 text-xs"><span class="bg-orange-50 text-orange-600 border border-orange-100 px-2.5 py-1 rounded-full font-medium">${p.category}</span></td>
             <td class="py-3 px-4 font-bold text-slate-700 text-sm">${formatRupiah(p.price)}</td>
             <td class="py-3 px-4 text-sm">${p.stock} pcs</td>
             <td class="py-3 px-4">
                 <div class="flex items-center gap-2">
-                    <button onclick="openProductFormModal(${p.id})" class="p-2 text-teal-600 hover:bg-teal-50 rounded-xl transition" title="Edit">
+                    <button onclick="openProductFormModal(${p.id})" class="p-2 text-orange-600 hover:bg-orange-50 rounded-xl transition" title="Edit">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button onclick="deleteProductByAdmin(${p.id})" class="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition" title="Hapus">
@@ -560,7 +587,7 @@ function openProductFormModal(productId = null) {
     modal.onclick = (e) => { if (e.target === modal) closeModal('admin-product-modal'); };
 
     modal.innerHTML = `
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in border border-slate-100">
             <button onclick="closeModal('admin-product-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 bg-slate-100 rounded-full w-9 h-9 flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -569,12 +596,12 @@ function openProductFormModal(productId = null) {
             <form onsubmit="saveProductByAdmin(event, ${productId})" class="space-y-3 text-sm">
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Produk</label>
-                    <input type="text" id="admin-p-name" required value="${product.name}" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-teal-500">
+                    <input type="text" id="admin-p-name" required value="${product.name}" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-500">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Kategori</label>
-                        <select id="admin-p-category" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-teal-500 bg-white">
+                        <select id="admin-p-category" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-500 bg-white">
                             <option value="Elektronik" ${product.category === 'Elektronik' ? 'selected' : ''}>Elektronik</option>
                             <option value="Gadget" ${product.category === 'Gadget' ? 'selected' : ''}>Gadget</option>
                             <option value="Fashion" ${product.category === 'Fashion' ? 'selected' : ''}>Fashion</option>
@@ -583,22 +610,22 @@ function openProductFormModal(productId = null) {
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Stok</label>
-                        <input type="number" id="admin-p-stock" required value="${product.stock}" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-teal-500">
+                        <input type="number" id="admin-p-stock" required value="${product.stock}" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-500">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">Harga (Rp)</label>
-                    <input type="number" id="admin-p-price" required value="${product.price}" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-teal-500">
+                    <input type="number" id="admin-p-price" required value="${product.price}" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-500">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">URL Gambar</label>
-                    <input type="url" id="admin-p-image" required value="${product.image}" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-teal-500">
+                    <input type="url" id="admin-p-image" required value="${product.image}" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-500">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">Deskripsi</label>
-                    <textarea id="admin-p-desc" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-teal-500">${product.description || ''}</textarea>
+                    <textarea id="admin-p-desc" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-500">${product.description || ''}</textarea>
                 </div>
-                <button type="submit" class="w-full mt-2 bg-teal-600 text-white font-semibold py-3 rounded-xl hover:bg-teal-700 transition">
+                <button type="submit" class="w-full mt-2 bg-orange-500 text-white font-semibold py-3 rounded-xl hover:bg-orange-600 shadow-md shadow-orange-500/20 transition">
                     ${isEdit ? 'Simpan Perubahan' : 'Tambah Produk'}
                 </button>
             </form>
@@ -658,7 +685,7 @@ function renderAdminOrders() {
     if (!container) return;
 
     if (orders.length === 0) {
-        container.innerHTML = `<div class="p-8 text-center text-slate-400 bg-white rounded-3xl">Belum ada pesanan dari pembeli.</div>`;
+        container.innerHTML = `<div class="p-8 text-center text-slate-400 bg-white rounded-3xl border border-slate-100">Belum ada pesanan dari pembeli.</div>`;
         return;
     }
 
@@ -669,7 +696,7 @@ function renderAdminOrders() {
                     <span class="font-bold text-slate-800">${order.id}</span>
                     <span class="text-xs text-slate-400 ml-2">${order.date}</span>
                 </div>
-                <span class="px-3 py-1 rounded-full text-xs font-semibold ${order.status === 'Selesai' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold ${order.status === 'Selesai' ? 'bg-orange-50 text-orange-600 border border-orange-100' : 'bg-amber-50 text-amber-600 border border-amber-100'}">
                     ${order.status}
                 </span>
             </div>
@@ -677,14 +704,14 @@ function renderAdminOrders() {
                 <p><strong>Pembeli:</strong> ${order.customer}</p>
                 <p><strong>Alamat:</strong> ${order.address}</p>
                 <p><strong>Metode:</strong> ${order.paymentMethod}</p>
-                <div class="mt-2 text-xs text-slate-500 bg-slate-50 p-2.5 rounded-xl">
+                <div class="mt-2 text-xs text-slate-500 bg-orange-50/40 p-2.5 rounded-xl border border-orange-100/50">
                     <strong>Detail Item:</strong> ${order.items ? order.items.map(i => `${i.name} (${i.quantity}x)`).join(", ") : '-'}
                 </div>
             </div>
             <div class="flex items-center justify-between pt-2">
                 <span class="font-bold text-slate-900">${formatRupiah(order.totalAmount)}</span>
                 ${order.status !== 'Selesai' ? `
-                    <button onclick="completeOrderStatus('${order.id}')" class="bg-teal-50 text-teal-600 text-xs font-bold px-4 py-2 rounded-xl hover:bg-teal-600 hover:text-white transition">
+                    <button onclick="completeOrderStatus('${order.id}')" class="bg-orange-50 text-orange-600 text-xs font-bold px-4 py-2 rounded-xl hover:bg-orange-500 hover:text-white transition">
                         Tandai Selesai
                     </button>
                 ` : ''}
@@ -755,6 +782,7 @@ function parseUrlParameters() {
 
 // Init saat halaman siap
 document.addEventListener("DOMContentLoaded", () => {
+    setupMinimalistNavbar();
     updateCartCount();
     updateWishlistCount();
 
