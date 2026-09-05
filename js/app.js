@@ -16,7 +16,7 @@ let cart = JSON.parse(localStorage.getItem("rizki_cart")) || [];
 let wishlist = JSON.parse(localStorage.getItem("rizki_wishlist")) || [];
 let orders = JSON.parse(localStorage.getItem("rizki_orders")) || [];
 
-// Simpan data default jika belum ada
+// Simpan data default jika belum ada di storage
 if (!localStorage.getItem("rizki_products")) {
     localStorage.setItem("rizki_products", JSON.stringify(products));
 }
@@ -28,7 +28,7 @@ function formatRupiah(number) {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
 }
 
-// Modern Custom Toast Notification (Pengganti alert bawaan)
+// Modern Custom Toast Notification
 function showToast(message, type = 'success') {
     let container = document.getElementById('toast-container');
     if (!container) {
@@ -42,7 +42,7 @@ function showToast(message, type = 'success') {
     const bgColor = type === 'success' ? 'bg-emerald-500' : type === 'warning' ? 'bg-amber-500' : 'bg-rose-500';
     const icon = type === 'success' ? 'fa-circle-check' : type === 'warning' ? 'fa-triangle-exclamation' : 'fa-circle-xmark';
 
-    toast.className = `${bgColor} text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-5 opacity-0 pointer-events-auto text-sm font-medium`;
+    toast.className = `${bgColor} text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 transform translate-y-5 opacity-0 pointer-events-auto text-sm font-medium z-50`;
     toast.innerHTML = `<i class="fa-solid ${icon} text-lg"></i> <span>${message}</span>`;
 
     container.appendChild(toast);
@@ -57,7 +57,7 @@ function showToast(message, type = 'success') {
     }, 3500);
 }
 
-// Save helpers
+// Save Helpers
 function saveProducts() {
     localStorage.setItem("rizki_products", JSON.stringify(products));
 }
@@ -86,6 +86,19 @@ function updateWishlistCount() {
     document.querySelectorAll("#wishlist-count").forEach(el => el.textContent = wishlist.length);
 }
 
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.remove();
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modals = ['product-detail-modal', 'checkout-modal', 'admin-product-modal'];
+        modals.forEach(id => closeModal(id));
+    }
+});
+
 // ==========================================
 // FITUR PEMBELI (BUYER FUNCTIONS)
 // ==========================================
@@ -101,11 +114,19 @@ function toggleWishlist(productId) {
         showToast("Produk dihapus dari favorit", "warning");
     }
     saveWishlist();
-    
-    // Re-render yang sedang aktif
-    const activeSearch = document.getElementById("search-input")?.value || "";
-    const activeCategory = document.getElementById("category-filter")?.value || "all";
-    filterAndRenderProducts(activeSearch, activeCategory);
+
+    // Re-render katalog produk jika sedang berada di halaman katalog
+    if (document.getElementById("all-products")) {
+        const activeSearch = document.getElementById("search-input")?.value || "";
+        const activeCategory = document.getElementById("category-filter")?.value || "all";
+        const activeSort = document.getElementById("sort-filter")?.value || "default";
+        filterAndRenderProducts(activeSearch, activeCategory, activeSort);
+    }
+
+    // Re-render halaman favorit jika sedang berada di halaman wishlist
+    if (document.getElementById("wishlist-products")) {
+        renderWishlistPage();
+    }
 }
 
 // Tambah ke Keranjang
@@ -131,6 +152,11 @@ function addToCart(productId) {
 
     saveCart();
     showToast(`"${product.name}" berhasil masuk keranjang!`);
+
+    // Jikalau sedang di halaman keranjang, perbarui tampilan
+    if (document.getElementById("cart-items-container")) {
+        renderCartPage();
+    }
 }
 
 // Modal Detail Produk (Quick View)
@@ -145,15 +171,22 @@ function openProductDetail(productId) {
         document.body.appendChild(modal);
     }
 
+    const isWishlisted = wishlist.includes(product.id);
+
     modal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300";
+    modal.onclick = (e) => { if (e.target === modal) closeModal('product-detail-modal'); };
+
     modal.innerHTML = `
-        <div class="bg-white/95 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-white/40 relative transform transition-all scale-100 animate-fade-in">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-white/40 relative transform transition-all scale-100 animate-fade-in">
             <button onclick="closeModal('product-detail-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 bg-slate-100 rounded-full w-9 h-9 flex items-center justify-center transition">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-                <div class="overflow-hidden rounded-2xl bg-slate-50">
+                <div class="overflow-hidden rounded-2xl bg-slate-50 relative">
                     <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover">
+                    <button onclick="toggleWishlist(${product.id}); openProductDetail(${product.id});" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-rose-500 shadow-sm transition">
+                        <i class="${isWishlisted ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart"></i>
+                    </button>
                 </div>
                 <div>
                     <span class="text-xs font-semibold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-100">${product.category}</span>
@@ -176,17 +209,12 @@ function openProductDetail(productId) {
     `;
 }
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.remove();
-}
-
-// Render Produk (Katalog Pembeli)
+// Render Produk (Katalog Pembeli / Featured)
 function renderProducts(items, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    if (items.length === 0) {
+    if (!items || items.length === 0) {
         container.innerHTML = `
             <div class="col-span-full py-16 text-center">
                 <div class="w-20 h-20 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
@@ -240,6 +268,32 @@ function renderProducts(items, containerId) {
     }).join("");
 }
 
+// Render Halaman Wishlist
+function renderWishlistPage() {
+    const container = document.getElementById("wishlist-products");
+    if (!container) return;
+
+    const wishlistItems = products.filter(p => wishlist.includes(p.id));
+
+    if (wishlistItems.length === 0) {
+        container.innerHTML = `
+            <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-100">
+                <div class="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i class="fa-solid fa-heart-crack"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Favorit Anda Masih Kosong</h3>
+                <p class="text-slate-500 text-sm mt-2 mb-6">Tandai barang impian Anda dengan menekan ikon hati.</p>
+                <a href="products.html" class="inline-flex items-center gap-2 bg-teal-600 text-white font-semibold px-6 py-3 rounded-2xl hover:bg-teal-700 transition shadow-md">
+                    <i class="fa-solid fa-bag-shopping"></i> Eksplor Produk
+                </a>
+            </div>
+        `;
+        return;
+    }
+
+    renderProducts(wishlistItems, "wishlist-products");
+}
+
 // Render Halaman Keranjang Belanja
 function renderCartPage() {
     const container = document.getElementById("cart-items-container");
@@ -258,8 +312,9 @@ function renderCartPage() {
                 </a>
             </div>
         `;
-        document.getElementById("cart-total") ? document.getElementById("cart-total").textContent = formatRupiah(0) : null;
-        document.getElementById("cart-grand-total") ? document.getElementById("cart-grand-total").textContent = formatRupiah(0) : null;
+        if (document.getElementById("cart-total")) document.getElementById("cart-total").textContent = formatRupiah(0);
+        if (document.getElementById("shipping-cost")) document.getElementById("shipping-cost").textContent = formatRupiah(0);
+        if (document.getElementById("cart-grand-total")) document.getElementById("cart-grand-total").textContent = formatRupiah(0);
         return;
     }
 
@@ -351,6 +406,8 @@ function openCheckoutModal() {
     }
 
     modal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm";
+    modal.onclick = (e) => { if (e.target === modal) closeModal('checkout-modal'); };
+
     modal.innerHTML = `
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in">
             <button onclick="closeModal('checkout-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 bg-slate-100 rounded-full w-9 h-9 flex items-center justify-center">
@@ -437,6 +494,20 @@ function checkout() {
 // FITUR ADMIN (ADMIN FUNCTIONS)
 // ==========================================
 
+// Render Statistik Admin
+function renderAdminStats() {
+    const totalProductsEl = document.getElementById("stat-products");
+    const totalOrdersEl = document.getElementById("stat-orders");
+    const totalRevenueEl = document.getElementById("stat-revenue");
+
+    if (totalProductsEl) totalProductsEl.textContent = products.length;
+    if (totalOrdersEl) totalOrdersEl.textContent = orders.length;
+    if (totalRevenueEl) {
+        const totalRevenue = orders.reduce((sum, o) => sum + o.totalAmount, 0);
+        totalRevenueEl.textContent = formatRupiah(totalRevenue);
+    }
+}
+
 // Render Tabel Manajemen Produk Admin
 function renderAdminProducts() {
     const tableBody = document.getElementById("admin-products-table");
@@ -461,10 +532,10 @@ function renderAdminProducts() {
             <td class="py-3 px-4 text-sm">${p.stock} pcs</td>
             <td class="py-3 px-4">
                 <div class="flex items-center gap-2">
-                    <button onclick="openProductFormModal(${p.id})" class="p-2 text-teal-600 hover:bg-teal-50 rounded-xl transition">
+                    <button onclick="openProductFormModal(${p.id})" class="p-2 text-teal-600 hover:bg-teal-50 rounded-xl transition" title="Edit">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
-                    <button onclick="deleteProductByAdmin(${p.id})" class="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition">
+                    <button onclick="deleteProductByAdmin(${p.id})" class="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition" title="Hapus">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -486,6 +557,8 @@ function openProductFormModal(productId = null) {
     }
 
     modal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm";
+    modal.onclick = (e) => { if (e.target === modal) closeModal('admin-product-modal'); };
+
     modal.innerHTML = `
         <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in">
             <button onclick="closeModal('admin-product-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 bg-slate-100 rounded-full w-9 h-9 flex items-center justify-center">
@@ -566,6 +639,7 @@ function saveProductByAdmin(event, productId) {
     saveProducts();
     closeModal('admin-product-modal');
     renderAdminProducts();
+    renderAdminStats();
 }
 
 function deleteProductByAdmin(productId) {
@@ -573,6 +647,7 @@ function deleteProductByAdmin(productId) {
         products = products.filter(p => p.id !== productId);
         saveProducts();
         renderAdminProducts();
+        renderAdminStats();
         showToast("Produk berhasil dihapus", "warning");
     }
 }
@@ -598,10 +673,13 @@ function renderAdminOrders() {
                     ${order.status}
                 </span>
             </div>
-            <div class="text-sm text-slate-600">
+            <div class="text-sm text-slate-600 space-y-1">
                 <p><strong>Pembeli:</strong> ${order.customer}</p>
                 <p><strong>Alamat:</strong> ${order.address}</p>
                 <p><strong>Metode:</strong> ${order.paymentMethod}</p>
+                <div class="mt-2 text-xs text-slate-500 bg-slate-50 p-2.5 rounded-xl">
+                    <strong>Detail Item:</strong> ${order.items ? order.items.map(i => `${i.name} (${i.quantity}x)`).join(", ") : '-'}
+                </div>
             </div>
             <div class="flex items-center justify-between pt-2">
                 <span class="font-bold text-slate-900">${formatRupiah(order.totalAmount)}</span>
@@ -621,6 +699,7 @@ function completeOrderStatus(orderId) {
         order.status = "Selesai";
         saveOrders();
         renderAdminOrders();
+        renderAdminStats();
         showToast("Status pesanan diperbarui!");
     }
 }
@@ -629,12 +708,21 @@ function completeOrderStatus(orderId) {
 // EVENT HANDLERS & INITIALIZATION
 // ==========================================
 
-function filterAndRenderProducts(query = "", category = "all") {
-    const filtered = products.filter(p => {
+function filterAndRenderProducts(query = "", category = "all", sort = "default") {
+    let filtered = products.filter(p => {
         const matchesSearch = p.name.toLowerCase().includes(query.toLowerCase());
         const matchesCategory = category === "all" || p.category.toLowerCase() === category.toLowerCase();
         return matchesSearch && matchesCategory;
     });
+
+    // Handle Urutan (Sorting)
+    if (sort === "price-low") {
+        filtered.sort((a, b) => a.price - b.price);
+    } else if (sort === "price-high") {
+        filtered.sort((a, b) => b.price - a.price);
+    } else if (sort === "rating") {
+        filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    }
 
     if (document.getElementById("all-products")) {
         renderProducts(filtered, "all-products");
@@ -647,6 +735,24 @@ function handleContactSubmit(event) {
     event.target.reset();
 }
 
+// Baca Parameter URL (e.g., ?category=Gadget atau ?search=headphone)
+function parseUrlParameters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    const searchParam = urlParams.get('search');
+
+    const searchInput = document.getElementById("search-input");
+    const categoryFilter = document.getElementById("category-filter");
+
+    if (categoryParam && categoryFilter) {
+        categoryFilter.value = categoryParam;
+    }
+
+    if (searchParam && searchInput) {
+        searchInput.value = searchParam;
+    }
+}
+
 // Init saat halaman siap
 document.addEventListener("DOMContentLoaded", () => {
     updateCartCount();
@@ -657,25 +763,41 @@ document.addEventListener("DOMContentLoaded", () => {
         renderProducts(products.slice(0, 4), "featured-products");
     }
 
-    // Render Halaman Produk + Pencarian & Filter
+    // Render Halaman Produk + Pencarian, Filter Kategori, & Sort
     if (document.getElementById("all-products")) {
-        renderProducts(products, "all-products");
+        parseUrlParameters();
 
         const searchInput = document.getElementById("search-input");
         const categoryFilter = document.getElementById("category-filter");
+        const sortFilter = document.getElementById("sort-filter");
 
         const applyFilter = () => {
-            filterAndRenderProducts(searchInput?.value || "", categoryFilter?.value || "all");
+            filterAndRenderProducts(
+                searchInput?.value || "",
+                categoryFilter?.value || "all",
+                sortFilter?.value || "default"
+            );
         };
+
+        applyFilter();
 
         searchInput?.addEventListener("input", applyFilter);
         categoryFilter?.addEventListener("change", applyFilter);
+        sortFilter?.addEventListener("change", applyFilter);
+    }
+
+    // Render Halaman Wishlist
+    if (document.getElementById("wishlist-products")) {
+        renderWishlistPage();
     }
 
     // Render Halaman Keranjang
-    renderCartPage();
+    if (document.getElementById("cart-items-container")) {
+        renderCartPage();
+    }
 
-    // Render Dashboard Admin (Jika Elemen Tersedia)
+    // Render Dashboard Admin
     renderAdminProducts();
     renderAdminOrders();
+    renderAdminStats();
 });
